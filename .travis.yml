@@ -1,5 +1,5 @@
 language: c
-compiler: gcc
+compiler: clang
 
-install: cd test/ ; make
-script:  cd test/ ; make test valgrind
+install: # noop
+script:  cd test/ ; make && make test
