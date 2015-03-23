@@ -10,6 +10,20 @@ Yet another thin HTTP layer written in C, with a small memory footprint.
 [coffuino](https://github.com/willdurand/coffuino) project, but has moved to its
 own repository because it can be widely used.
 
+
+Usage
+-----
+
+Please see
+[`src/httpuino.h`](https://github.com/willdurand/httpuino/blob/master/src/httpuino.h).
+
+
+Unit Tests
+----------
+
+    cd test/ ; make test
+
+
 License
 -------
 
