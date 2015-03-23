@@ -99,6 +99,17 @@ void test_post_value_with_url_encoded_values()
   free(ret);
 }
 
+void test_post_value_param_not_present()
+{
+  char * ret;
+
+  ret = post_value("var=babar", "foo");
+  assert_true(ret == NULL);
+
+  ret = post_value("", "foo");
+  assert_true(ret == NULL);
+}
+
 void test_suite() {
   run_test(test_method);
   run_test(test_path);
@@ -110,6 +121,7 @@ void test_suite() {
   run_test(test_post_value_simple);
   run_test(test_post_value_with_multiple_params);
   run_test(test_post_value_with_url_encoded_values);
+  run_test(test_post_value_param_not_present);
 }
 
 int main(int argc, char ** argv) {
