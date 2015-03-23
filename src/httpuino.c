@@ -33,10 +33,20 @@ http_request_t parse_request(const char * string)
 
   if (!strcmp("GET", method)) {
     request.method = GET;
-  } else if (!strcmp("BREW", method)) {
-    request.method = BREW;
+  } else if (!strcmp("HEAD", method)) {
+    request.method = HEAD;
   } else if (!strcmp("POST", method)) {
     request.method = POST;
+  } else if (!strcmp("PUT", method)) {
+    request.method = PUT;
+  } else if (!strcmp("DELETE", method)) {
+    request.method = DELETE;
+  } else if (!strcmp("PATCH", method)) {
+    request.method = PATCH;
+  } else if (!strcmp("OPTIONS", method)) {
+    request.method = OPTIONS;
+  } else if (!strcmp("BREW", method)) {
+    request.method = BREW;
   } else if (!strcmp("WHEN", method)) {
     request.method = WHEN;
   } else if (!strcmp("PROPFIND", method)) {
