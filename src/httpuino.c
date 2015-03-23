@@ -165,6 +165,7 @@ char * trim(char * input)
   return input;
 }
 
-char from_hex(char ch) {
+char from_hex(char ch)
+{
   return isdigit(ch) ? ch - '0' : tolower(ch) - 'a' + 10;
 }
