@@ -1,6 +1,9 @@
 httpuino
 ========
 
+[![Build
+Status](https://travis-ci.org/willdurand/httpuino.svg?branch=master)](https://travis-ci.org/willdurand/httpuino)
+
 Yet another thin HTTP layer written in C, with a small memory footprint.
 
 **Note:** This project was initially part of the
