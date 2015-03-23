@@ -35,7 +35,7 @@ typedef struct http_request {
   char body[BUFFER_SIZE];
 } http_request_t;
 
-http_request_t parse_request(const char *);
+http_request_t * parse_request(const char *);
 char * post_value(const char *, const char *);
 
 #endif

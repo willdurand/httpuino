@@ -16,51 +16,51 @@ char from_hex(char);
 
 /* ========================================================================= */
 
-http_request_t parse_request(const char * string)
+http_request_t * parse_request(const char * string)
 {
   char * line, * pos, * pos2, * data = strdup(string);
 
   int i, nbHeaders = 0;
   char * method , body[BUFFER_SIZE] = "";
 
-  http_request_t request;
+  http_request_t * request = (http_request_t *)malloc(sizeof(http_request_t));
 
   /* parse `method` */
   line   = strtok_r(data, "\r\n", &pos);
   method = strtok_r(line, " ", &pos2);
 
-  request.method = UNKNOWN;
+  request->method = UNKNOWN;
 
   if (!strcmp("GET", method)) {
-    request.method = GET;
+    request->method = GET;
   } else if (!strcmp("HEAD", method)) {
-    request.method = HEAD;
+    request->method = HEAD;
   } else if (!strcmp("POST", method)) {
-    request.method = POST;
+    request->method = POST;
   } else if (!strcmp("PUT", method)) {
-    request.method = PUT;
+    request->method = PUT;
   } else if (!strcmp("DELETE", method)) {
-    request.method = DELETE;
+    request->method = DELETE;
   } else if (!strcmp("PATCH", method)) {
-    request.method = PATCH;
+    request->method = PATCH;
   } else if (!strcmp("OPTIONS", method)) {
-    request.method = OPTIONS;
+    request->method = OPTIONS;
   } else if (!strcmp("BREW", method)) {
-    request.method = BREW;
+    request->method = BREW;
   } else if (!strcmp("WHEN", method)) {
-    request.method = WHEN;
+    request->method = WHEN;
   } else if (!strcmp("PROPFIND", method)) {
-    request.method = PROPFIND;
+    request->method = PROPFIND;
   }
 
   /* parse `path` */
-  strlcpy(request.path, strtok_r(NULL, " ", &pos2), sizeof(request.path));
+  strlcpy(request->path, strtok_r(NULL, " ", &pos2), sizeof(request->path));
 
   /* parse `headers` */
   if (nbHeaders == 0) {
     for (i = 0; i <= NB_HEADERS; i++) {
-      request.headers[i].name[0]  = 0;
-      request.headers[i].value[0] = 0;
+      request->headers[i].name[0]  = 0;
+      request->headers[i].value[0] = 0;
     }
   }
 
@@ -77,8 +77,8 @@ http_request_t parse_request(const char * string)
 
     /* TODO: fixme */
     if (nbHeaders <= NB_HEADERS) {
-      strlcpy(request.headers[nbHeaders].name, trim(strtok_r(line, ":", &pos2)), sizeof(request.headers[nbHeaders].name));
-      strlcpy(request.headers[nbHeaders].value, trim(pos2), sizeof(request.headers[nbHeaders].value));
+      strlcpy(request->headers[nbHeaders].name, trim(strtok_r(line, ":", &pos2)), sizeof(request->headers[nbHeaders].name));
+      strlcpy(request->headers[nbHeaders].value, trim(pos2), sizeof(request->headers[nbHeaders].value));
     }
 
     line = strtok_r(NULL, "\r", &pos);
@@ -96,7 +96,7 @@ http_request_t parse_request(const char * string)
     line = strtok_r(NULL, "\r\n", &pos);
   }
 
-  strlcpy(request.body, body, sizeof(request.body));
+  strlcpy(request->body, body, sizeof(request->body));
 
   free(data);
 
