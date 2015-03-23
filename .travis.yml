@@ -1,0 +1,5 @@
+language: c
+compiler: gcc
+
+install: cd test/ ; make
+script:  cd test/ ; make test valgrind
