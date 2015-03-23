@@ -1,7 +1,7 @@
 TARGET   = main
 CXX      = gcc
 CPPFLAGS = -Wall -ansi -pedantic -g
-LIBS     = -I../src -I./seatest
+LIBS     = -I../src -I./seatest -I/usr/include/bsd
 
 .PHONY: default clean test
 
