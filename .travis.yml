@@ -1,5 +1,5 @@
 language: c
-compiler: clang
+compiler: gcc
 
 install: sudo apt-get install -y libbsd-dev
-script:  cd test/ ; make && make test
+script:  cd test/ ; make test

@@ -35,7 +35,23 @@ typedef struct http_request {
   char body[BUFFER_SIZE];
 } http_request_t;
 
+/**
+ * This function parses an HTTP message with a few limitations such as:
+ *
+ *   - Parse the first 4 HTTP headers only
+ *   - Header's name cannot exceed (BUFFER_SIZE / 2) chars
+ *   - Header's value cannot exceed BUFFER_SIZE chars
+ *   - Return a path that cannot exceed BUFFER_SIZE chars
+ *   - Return a body content that cannot exceed BUFFER_SIZE chars
+ */
 http_request_t * parse_request(const char *);
+
+/**
+ * This function parses an HTTP body content encoded with
+ * `www-form-urlencoded`.
+ *
+ * @return the value if parameter is found, `NULL` otherwise.
+ */
 char * post_value(const char *, const char *);
 
 #endif

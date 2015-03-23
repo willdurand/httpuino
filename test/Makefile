@@ -1,14 +1,31 @@
 TARGET   = main
-CXX      = gcc
-CPPFLAGS = -Wall -ansi -pedantic -g
-LIBS     = -I../src -I./seatest -I/usr/include/bsd
+CC       = gcc
+INCLUDES = -I../src -I./seatest
+CFLAGS   = -Wall -pedantic
+LDFLAGS  =
 
-.PHONY: default clean test
+.PHONY: default clean test debug valgrind
+.PRECIOUS: $(TARGET) $(OBJECTS)
+
+UNAME := $(shell uname)
+
+ifeq ($(UNAME), Linux)
+LDFLAGS  = -lbsd
+endif
+
+ifeq ($(debug),1)
+CFLAGS += -g -DDEBUG=1
+endif
 
 OBJECTS = httpuino.o seatest.o main.o
 HEADERS = $(wildcard *.h) $(wildcard ../src/*.h)
 
 default: $(TARGET)
+
+clean:
+	rm -f *.o
+	rm -f $(TARGET)
+	rm -rf main.dSYM/
 
 test: clean default
 	./$(TARGET)
@@ -19,21 +36,14 @@ debug: clean default
 valgrind: clean default
 	valgrind --tool=memcheck --leak-check=yes --track-origins=yes --dsymutil=yes ./$(TARGET)
 
-clean:
-	rm -f *.o
-	rm -f $(TARGET)
-	rm -rf main.dSYM/
-
 seatest.o: seatest/seatest.c $(HEADERS)
-	$(CXX) $(CPPFLAGS) $(LIBS) -c $< -o $@
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 httpuino.o: ../src/httpuino.c $(HEADERS)
-	$(CXX) $(CPPFLAGS) $(LIBS) -c $< -o $@
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 main.o: main.c $(HEADERS)
-	$(CXX) $(CPPFLAGS) $(LIBS) -c $< -o $@
-
-.PRECIOUS: $(TARGET) $(OBJECTS)
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 $(TARGET): $(OBJECTS)
-	$(CXX) $(OBJECTS) -o $@
+	$(CC) $(OBJECTS) -o $@ $(LDFLAGS)
